@@ -1,19 +1,18 @@
 import express from 'express'
 import fs from 'fs'
+import { port, teamID, filePaths } from './config/config.js'
 
-const jsonPath = './src/json/'
 const app = express()
-const port = 5151
+
 
 app.get('/ping', (req, res) => {
-    res.send('pong 5')
+    res.send(`pong ${teamID}`)
 });
 
 app.get('/about', (req, res) => {
-    const fileName = 'about.json'
-    fs.readFile(jsonPath + fileName, (err, data) => {
+    fs.readFile(filePaths['about'], (err, data) => {
         if (err) {
-            console.error(`Error reading ${fileName}:`, err);
+            console.error(`Error reading ${filePaths['about']}:`, err);
         }else{
             res.send(JSON.parse(data));
         }
