@@ -10,9 +10,10 @@ app.get('/ping', (req, res) => {
 });
 
 app.get('/about', (req, res) => {
-    fs.readFile(jsonPath+'about.json', (err, data) => {
+    const fileName = 'about.json'
+    fs.readFile(jsonPath + fileName, (err, data) => {
         if (err) {
-            console.error('Error reading about.json:', err);
+            console.error(`Error reading ${fileName}:`, err);
         }else{
             res.send(JSON.parse(data));
         }
