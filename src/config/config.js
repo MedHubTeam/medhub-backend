@@ -1,5 +1,5 @@
 const jsonPath = './src/json/'
-const port = 5555
+const port = process.env.PORT || 4000
 const teamID = 5
 const filePaths = {
     'about': jsonPath + 'about.json'
