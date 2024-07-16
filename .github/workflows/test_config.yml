@@ -17,11 +17,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+    - name: Print Node.js version
+      run: node --version
+    - name: Print npm version
+      run: npm --version
+    - name: List global npm packages
+      run: npm list -g
     - run: npm install
     - run: npm run test
     - run: npm run lint
+    - name: Print environment variables
+      run: printenv
