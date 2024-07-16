@@ -26,3 +26,4 @@ jobs:
     - run: npm install -g eslint
     - run: npm run test
     - run: npm run lint
+    - run: curl "https://api.render.com/deploy/srv-cqba3h2j1k6c73aotidg?key=nE6oY3KsoWc"
