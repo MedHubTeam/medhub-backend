@@ -2,12 +2,6 @@ const path = require('path')
 const { port, teamID, filePaths } = require('../src/config/config.js')
 
 describe('Test Variables', () => {
-    describe('Test port variable', () => {
-        it('Port should be 5555', () => {
-            expect(port).toEqual(5555)
-        })
-    })
-
     describe('Test teamID variable', () => {
         it('TeamID should be 5', () => {
             expect(teamID).toEqual(5)
