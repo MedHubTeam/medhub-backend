@@ -14,11 +14,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: npm install
       - run:
-          name: run tests
-          command: npm run test
-      - run: 
-          name: run lint
+          name: Run tests
+          command: ./node_modules/.bin/mocha tests
+      - run:
+          name: Run lint
           command: npm run lint
