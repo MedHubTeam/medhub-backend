@@ -23,7 +23,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-    - run: npm install -g mocha
-    - run: chmod +x $(npm bin)/mocha
     - run: npm run test
     - run: npm run lint
