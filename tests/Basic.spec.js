@@ -1,5 +1,5 @@
 const path = require('path')
-const { port, teamID, filePaths } = require('../src/config/config.js')
+const { teamID, filePaths } = require('../src/config/config.js')
 
 describe('Test Variables', () => {
     describe('Test teamID variable', () => {
