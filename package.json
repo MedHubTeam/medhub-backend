@@ -1,0 +1,44 @@
+{
+  "name": "medhub-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "MedHub Team (https://github.com/MedHubTeam)",
+  "contributors": [
+    {
+      "name": "Nadav Mozeson",
+      "email": "NadavMo3@ac.sce.ac.il",
+      "url": "https://github.com/NadavMozeson"
+    },
+    {
+      "name": "Maor Malka",
+      "email": "maorma6@ac.sce.ac.il",
+      "url": "https://github.com/MaorMalka"
+    },
+    {
+      "name": "Topaz Natan",
+      "email": "topazna@ac.sce.ac.il",
+      "url": "https://github.com/TopazN"
+    },
+    {
+      "name": "Gabriela Brailovsky",
+      "email": "GabriBr@ac.sce.ac.il",
+      "url": "https://github.com/Gabrielab5"
+    },
+    {
+      "name": "Nativ Levi",
+      "email": "nativle@ac.sce.ac.il",
+      "url": "https://github.com/nativlevi"
+    },
+    {
+      "name": "Vlad Kelar",
+      "email": "vladike@ac.sce.ac.il",
+      "url": "https://github.com/LeadEx13"
+    }
+  ],
+  "license": "ISC"
+}
