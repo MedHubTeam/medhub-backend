@@ -6,8 +6,8 @@ orbs:
   node: circleci/node@5
 
 workflows:
-    my-workflow:
-      - build-test-lint
+  my-workflow:
+    - build-test-lint
 
 jobs:
   build-test-lint:
