@@ -1,6 +1,6 @@
-import express from 'express'
-import fs from 'fs'
-import { port, teamID, filePaths } from './config/config.js'
+const express = require('express')
+const fs = require('fs')
+const { port, teamID, filePaths } = require('../src/config/config.js')
 
 const app = express()
 

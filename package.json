@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.js",
-    "test": "mocha tests",
-    "lint": "eslint src/*"
+    "test": "jest tests",
+    "lint": "eslint"
   },
-  "type": "module",
   "author": "MedHub Team (https://github.com/MedHubTeam)",
   "contributors": [
     {
@@ -47,12 +46,9 @@
     "express": "^4.19.2"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.16",
-    "@types/mocha": "^10.0.7",
-    "chai": "^5.1.1",
     "eslint": "^9.7.0",
     "globals": "^15.8.0",
-    "mocha": "^10.6.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.4"
   }
 }

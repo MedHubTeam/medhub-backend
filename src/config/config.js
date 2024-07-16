@@ -1,6 +1,12 @@
 const jsonPath = './src/json/'
-export const port = 5555
-export const teamID = 5
-export const filePaths = {
-    "about": jsonPath + "about.json"
+const port = 5555
+const teamID = 5
+const filePaths = {
+    'about': jsonPath + 'about.json'
+}
+
+module.exports = {
+    port,
+    teamID,
+    filePaths
 }
