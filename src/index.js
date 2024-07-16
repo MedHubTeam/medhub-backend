@@ -1,13 +1,24 @@
 import express from 'express'
+import fs from 'fs'
 
+const jsonPath = './src/json/'
 const app = express()
 const port = 5151
 
-app.get('/', (req, res) => {
-    const response = '{"text": "Hello World"}'
-    res.send(response)
+app.get('/ping', (req, res) => {
+    res.send('pong 5')
+});
+
+app.get('/about', (req, res) => {
+    fs.readFile(jsonPath+'about.json', (err, data) => {
+        if (err) {
+            console.error('Error reading about.json:', err);
+        }else{
+            res.send(JSON.parse(data));
+        }
+    })
 });
 
 app.listen(port, () => {
-    console.log(`listening on port: ${port}`)
+    console.log(`Server is running on http://localhost:${port}`)
 })

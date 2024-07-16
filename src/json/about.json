@@ -1,0 +1,17 @@
+{
+    "title": "About Us", 
+    "content": {
+      "welcome": {
+        "title": "Welcome to MedHub",
+        "text": "MedHub is a dedicated social network for doctors, medical students, and healthcare professionals worldwide. Our platform serves as an online hub where medical minds, belonging to different specialties from different countries, come together to share knowledge, get opinions from colleagues, and discuss clinical cases."
+      },
+      "vision": {
+        "title": "Our Vision",
+        "text": "In MedHub, we long to see a world where health professionals are networked beyond boundaries, coming together for the pooling of skills and knowledge in medical practice and the advancement of health globally. We optimize towards collaborative efforts that reduce the knowledge-practice gap to ensure access to the best of medical care."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "text": "Have questions or need some help? Let us support you. Would you like to get in touch? Please contact us via our GitHub page: https://github.com/MedHubTeam."
+      }
+    }
+  }
