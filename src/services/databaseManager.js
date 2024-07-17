@@ -1,5 +1,4 @@
 require('dotenv').config()
-const { run } = require('jest')
 const { MongoClient } = require('mongodb')
 
 class DBManagerClass {
