@@ -46,12 +46,12 @@ class DBManagerClass {
     }
 
     async checkLogin(inputUsername, inputPassword) {
-        const findResult = await this.findOne('Users', {username: inputUsername, password: inputPassword})
+        const findResult = await this.findOne('Users', { username: inputUsername, password: inputPassword } )
         if (findResult){
-            const result = Object.assign({'status': 'success'}, findResult)
+            const result = Object.assign( { 'status': 'success' } , findResult)
             return result
         } else {
-            return {'status': 'failed'}
+            return { 'status': 'failed' }
         }
     }
 }
