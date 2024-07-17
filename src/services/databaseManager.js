@@ -13,7 +13,7 @@ class DBManagerClass {
 
     async connect() {
         await this.client.connect()
-        this.db = this.client.db("MedHub")
+        this.db = this.client.db('MedHub')
         console.log(`Connected to "${this.db.databaseName}" database with MongoDB`)
     }
 
@@ -48,4 +48,4 @@ class DBManagerClass {
 
 const dbManager = new DBManagerClass()
 
-module.exports = dbManager;
+module.exports = dbManager
