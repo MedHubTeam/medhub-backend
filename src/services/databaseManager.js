@@ -1,4 +1,5 @@
 require('dotenv').config()
+const { run } = require('jest')
 const { MongoClient } = require('mongodb')
 
 class DBManagerClass {
@@ -43,6 +44,16 @@ class DBManagerClass {
         const collection = this.db.collection(collectionName)
         const result = await collection.deleteOne(query)
         return result
+    }
+
+    async checkLogin(inputUsername, inputPassword) {
+        const findResult = await this.findOne('Users', {username: inputUsername, password: inputPassword})
+        if (findResult){
+            const result = Object.assign({'status': 'success'}, findResult)
+            return result
+        } else {
+            return {'status': 'failed'}
+        }
     }
 }
 
