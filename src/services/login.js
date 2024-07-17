@@ -1,3 +1,5 @@
+const DBManager = require('./databaseManager.js')
+
 /**
  * @param {import('express').Application} app
  */

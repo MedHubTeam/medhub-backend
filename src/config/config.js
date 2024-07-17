@@ -1,3 +1,4 @@
+require('dotenv').config()
 const jsonPath = './src/json/'
 const port = process.env.PORT || 4000
 const teamID = 5
