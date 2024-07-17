@@ -4,7 +4,7 @@ const { filePaths } = require('../config/config.js')
 /**
  * @param {import('express').Application} app
  */
-module.exports = function(app){
+module.exports = (app) => {
     app.get('/about', (req, res) => {
         fs.readFile(filePaths['about'], (err, data) => {
             if (err) {

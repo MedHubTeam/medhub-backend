@@ -3,7 +3,7 @@ const DBManager = require('./databaseManager.js')
 /**
  * @param {import('express').Application} app
  */
-module.exports = function(app){
+module.exports = (app) => {
     app.get('/login', async (req, res) => {
         const username = req.query.username
         const password = req.query.password
