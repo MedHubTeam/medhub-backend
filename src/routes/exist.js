@@ -1,5 +1,5 @@
-const express = require('express');
-const existRouter = express.Router();
+const express = require('express')
+const existRouter = express.Router()
 const DBManager = require('../services/databaseManager')
 
 

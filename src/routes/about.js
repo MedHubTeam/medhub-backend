@@ -1,8 +1,8 @@
 const fs = require('fs')
 const { filePaths } = require('../config/config.js')
 
-const express = require('express');
-const aboutRouter = express.Router();
+const express = require('express')
+const aboutRouter = express.Router()
 
 aboutRouter.get('/', (req, res) => {
     fs.readFile(filePaths['about'], (err, data) => {
