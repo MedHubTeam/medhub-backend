@@ -86,10 +86,50 @@ class DBManagerClass {
         try{
             const findResult = await this.findOne('Users', { username: inputUsername, password: inputPassword } )
             if (findResult){
-                return { 'status': 'successful', 'data': { 'userID': findResult['_id'], 'username': findResult['username'] } }
+                return { 'status': 'successful', 'data': { 'userID': findResult['_id'] } }
             } else {
                 return { 'status': 'rejected' }
             }
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
+
+    async checkUsernameExists(inputUsername) {
+        try{
+            const findResult = await this.findOne('Users', { username: inputUsername } )
+            return !!findResult
+        }catch(err) {
+            console.error(err)
+            return false
+        }
+    }
+
+    async checkEmailExists(inputMail) {
+        try{
+            const findResult = await this.findOne('Users', { email: inputMail } )
+            return !!findResult
+        }catch(err) {
+            console.error(err)
+            return false
+        }
+    }
+
+    async registerUser(inUsername, inEmail, inPassword, inProStatus) {
+        try{
+            if(!(await this.checkEmailExists(inEmail)) && !(await this.checkUsernameExists(inUsername))){
+                const result = await this.insertOne('Users', { username: inUsername, email: inEmail, password: inPassword, proStatus: inProStatus })
+                if (result){
+                    const newUserResult = await this.findOne('Users', { username: inUsername, email: inEmail, password: inPassword, proStatus: inProStatus } )
+                    return { 'status': 'successful', 'data': { 'userID': newUserResult['_id'] } }
+                } else {
+                    return { 'status': 'failed' }
+                }
+            }else { 
+                return { 'status': 'rejected' }
+            }
+            
         }catch(err) {
             console.error(err)
             return { 'status': 'failed' }
