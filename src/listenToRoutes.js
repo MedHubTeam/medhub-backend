@@ -1,13 +1,13 @@
-const existRouter = require('./routes/exist.js')
-const aboutRouter = require('./routes/about.js')
-
+const loginRouter = require('./routes/login.js')
+const registerRouter = require('./routes/register.js')
+const contentRouter = require('./routes/staticContent.js')
 
 module.exports = (app) => {
-    app.use('/about', aboutRouter)
-    app.use('/exist', existRouter)
+    // Initialize routes
+    app.use('/login', loginRouter)
+    app.use('/register', registerRouter)
+    app.use('/content', contentRouter)
 
+    // Initialize ping functionality
     require('./utils/ping.js')(app)
-    require('./services/login.js')(app)
-    require('./services/register.js')(app)
-
 }

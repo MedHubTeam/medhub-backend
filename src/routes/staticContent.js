@@ -1,10 +1,10 @@
+const express = require('express')
+const contentRouter = express.Router()
+
 const fs = require('fs')
 const { filePaths } = require('../config/config.js')
 
-const express = require('express')
-const aboutRouter = express.Router()
-
-aboutRouter.get('/', (req, res) => {
+contentRouter.get('/about', (req, res) => {
     fs.readFile(filePaths['about'], (err, data) => {
         if (err) {
             console.error(`Error reading ${filePaths['about']}:`, err)
@@ -15,4 +15,4 @@ aboutRouter.get('/', (req, res) => {
     })
 })
 
-module.exports = aboutRouter
+module.exports = contentRouter

@@ -137,6 +137,6 @@ class DBManagerClass {
     }
 }
 
-const dbManager = new DBManagerClass()
+const DBManager = new DBManagerClass()
 
-module.exports = dbManager
+module.exports = DBManager
