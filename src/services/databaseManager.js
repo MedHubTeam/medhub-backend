@@ -1,6 +1,7 @@
 require('dotenv').config()
 require('pretty-error').start()
 const { MongoClient } = require('mongodb')
+const ObjectID = require('mongodb').ObjectId
 
 
 class DBManagerClass {
@@ -81,6 +82,22 @@ class DBManagerClass {
             throw err
         }
     }
+
+    async deleteUser(id) {
+        try{
+            await this.deleteOne('Users', { '_id':new ObjectID(id) } )
+            const findResult = await this.findOne('Users', { '_id':new ObjectID(id) } )
+            if (findResult){
+                return { 'status': 'failed' }
+            } else {
+                return { 'status': 'successful' }
+            }
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
+
 
     async checkLogin(inputUsername, inputPassword) {
         try{
