@@ -10,6 +10,7 @@ module.exports = (app) => {
     app.use('/content', contentRouter)
     app.use('/user', userRouter)
     
-    // Initialize ping functionality
+    // Initialize functionality
     require('./utils/ping.js')(app)
+    require('./utils/list.js')(app)
 }
