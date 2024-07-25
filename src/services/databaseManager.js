@@ -61,6 +61,17 @@ class DBManagerClass {
         }
     }
 
+    async findMany(collectionName, query) {
+        try{
+            const collection = this.db.collection(collectionName)
+            const result = await collection.find(query)
+            return result.toArray()
+        }catch(err) {
+            console.error(err)
+            throw err
+        }
+    } 
+
     async updateOne(collectionName, query, update) {
         try{
             const collection = this.db.collection(collectionName)
@@ -91,6 +102,20 @@ class DBManagerClass {
                 return { 'status': 'failed' }
             } else {
                 return { 'status': 'successful' }
+            }
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
+
+    async getUserFollowing(id) {
+        try{
+            const findResult = await this.findMany('Following', { 'user':id } )
+            if (findResult){
+                return { 'status': 'successful', 'data': findResult.map(item => item.following) }
+            } else {
+                return { 'status': 'failed' }
             }
         }catch(err) {
             console.error(err)
