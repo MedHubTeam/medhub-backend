@@ -75,7 +75,7 @@ class DBManagerClass {
     async updateOne(collectionName, query, update) {
         try{
             const collection = this.db.collection(collectionName)
-            const result = await collection.updateOne(query, update)
+            const result = await collection.updateOne(query, { $set: update })
             return result
         }catch(err) {
             console.error(err)
@@ -122,7 +122,6 @@ class DBManagerClass {
             return { 'status': 'failed' }
         }
     }
-
 
     async checkLogin(inputUsername, inputPassword) {
         try{
@@ -215,6 +214,49 @@ class DBManagerClass {
                 return { 'status': 'rejected' }
             }
             
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
+
+    async updateUserDetails(id, field, new_value) {
+        try{
+            let updateQuery = null
+            let check = false
+            if (field === 'username'){
+                updateQuery = { username: new_value }
+            } else if (field === 'email') {
+                updateQuery = { email: new_value }
+            } else if (field === 'profession') {
+                updateQuery = { proStatus: new_value }
+            } else {
+                updateQuery = { password: new_value }
+            }
+            await this.updateOne('Users', { '_id': new ObjectID(id) }, updateQuery)
+            const findResults = await this.findOne('Users', { '_id': new ObjectID(id) })
+            if (field === 'username'){
+                if (findResults.username === new_value){
+                    check = true
+                }
+            } else if (field === 'email') {
+                if (findResults.email === new_value){
+                    check = true
+                }
+            } else if (field === 'profession') {
+                if (findResults.proStatus === new_value){
+                    check = true
+                }
+            } else {
+                if (findResults.password === new_value){
+                    check = true
+                }
+            }
+            if (check) {
+                return { 'status': 'successful' }
+            }else{
+                return { 'status': 'failed' }
+            }
         }catch(err) {
             console.error(err)
             return { 'status': 'failed' }
