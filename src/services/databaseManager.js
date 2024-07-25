@@ -152,6 +152,35 @@ class DBManagerClass {
         }
     }
 
+    async getEmail(id) {
+        try{
+            const findResult = await this.findOne('Users', { '_id':new ObjectID(id) } )
+            if (findResult){
+                return { 'status': 'successful', 'data': { 'email': findResult['email'] } }
+            } else {
+                return { 'status': 'rejected' }
+            }
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
+
+    async getProfession(id) {
+        try{
+            const findResult = await this.findOne('Users', { '_id':new ObjectID(id) } )
+            if (findResult){
+                return { 'status': 'successful', 'data': { 'proSataus': findResult['proSataus'] } }
+            } else {
+                return { 'status': 'rejected' }
+            }
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
+
+
     async checkUsernameExists(inputUsername) {
         try{
             const findResult = await this.findOne('Users', { username: inputUsername } )
