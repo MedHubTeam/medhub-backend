@@ -138,6 +138,20 @@ class DBManagerClass {
         }
     }
 
+    async getUsername(id) {
+        try{
+            const findResult = await this.findOne('Users', { '_id':new ObjectID(id) } )
+            if (findResult){
+                return { 'status': 'successful', 'data': { 'username': findResult['username'] } }
+            } else {
+                return { 'status': 'rejected' }
+            }
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
+
     async checkUsernameExists(inputUsername) {
         try{
             const findResult = await this.findOne('Users', { username: inputUsername } )
