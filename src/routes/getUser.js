@@ -7,4 +7,14 @@ getUserRouter.get('/username', async (req, res) => {
     res.send(await DBManager.getUsername(id))
 })
 
+getUserRouter.get('/email', async (req, res) => {
+    const id = req.query.id
+    res.send(await DBManager.getEmail(id))
+})
+
+getUserRouter.get('/profession', async (req, res) => {
+    const id = req.query.id
+    res.send(await DBManager.getProfession(id))
+})
+
 module.exports = getUserRouter

@@ -168,9 +168,9 @@ class DBManagerClass {
 
     async getProfession(id) {
         try{
-            const findResult = await this.findOne('Users', { '_id':new ObjectID(id) } )
+            const findResult = await this.findOne('Users', { '_id': new ObjectID(id) } )
             if (findResult){
-                return { 'status': 'successful', 'data': { 'proSataus': findResult['proSataus'] } }
+                return { 'status': 'successful', 'data': { 'proStatus': findResult['proStatus'] } }
             } else {
                 return { 'status': 'rejected' }
             }
