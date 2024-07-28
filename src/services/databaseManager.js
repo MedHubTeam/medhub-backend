@@ -265,7 +265,7 @@ class DBManagerClass {
 
     async removefollower(id, following) {
         try{
-            await this.deleteOne('Following', { 'user': id, 'following': following} )
+            await this.deleteOne('Following', { 'user': id, 'following': following } )
             const findResult = await this.findOne('Following', { 'user': id, 'following': following } )
             if (findResult){
                 return { 'status': 'failed' }
