@@ -1,6 +1,5 @@
 const loginRouter = require('./routes/login.js')
 const registerRouter = require('./routes/register.js')
-const setUserRouter = require('./routes/setUser.js')
 const contentRouter = require('./routes/staticContent.js')
 const userRouter = require('./routes/user.js') 
 
@@ -10,7 +9,6 @@ module.exports = (app) => {
     app.use('/register', registerRouter)
     app.use('/content', contentRouter)
     app.use('/user', userRouter)
-    app.use('/setUser', setUserRouter)
     
     // Initialize functionality
     require('./utils/ping.js')(app)

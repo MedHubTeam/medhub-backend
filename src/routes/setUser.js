@@ -20,4 +20,10 @@ setUserRouter.get('/profession', async (req, res) => {
     res.send(await DBManager.updateUserDetails(id, 'profession', value))
 })
 
+setUserRouter.get('/unfollow', async (req, res) => {
+    const id = req.query.id
+    const following = req.query.following
+    res.send(await DBManager.removefollower(id, following))
+})
+
 module.exports = setUserRouter

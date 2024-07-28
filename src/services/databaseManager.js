@@ -262,7 +262,25 @@ class DBManagerClass {
             return { 'status': 'failed' }
         }
     }
+
+    async removefollower(id, following) {
+        try{
+            await this.deleteOne('Following', { 'user': id, 'following': following} )
+            const findResult = await this.findOne('Following', { 'user': id, 'following': following } )
+            if (findResult){
+                return { 'status': 'failed' }
+            } else {
+                return { 'status': 'successful' }
+            }
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
 }
+
+
+    
 
 const DBManager = new DBManagerClass()
 
