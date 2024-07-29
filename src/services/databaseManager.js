@@ -287,42 +287,35 @@ class DBManagerClass {
             }
             const result = await this.insertOne('Posts', postDocument)
             return result
-        } catch (err) {
-            console.error('Error inserting post:', err)
-            throw err
+        } catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
         }
     }
 
     async findAllPosts() {
         try {
-            const posts = await this.db.collection('Posts').aggregate([
-                {
-                    $lookup: {
-                        from: 'Users',
-                        localField: 'user_id',
-                        foreignField: '_id',
-                        as: 'userDetails'
-                    }
-                },
-                {
-                    $unwind: {
-                        path: '$userDetails',
-                        preserveNullAndEmptyArrays: true // To keep posts even if user is not found
-                    }
-                },
-                {
-                    $project: {
-                        content: 1,
-                        timestamp: 1,
-                        user_id: 1,
-                        username: '$userDetails.username'
-                    }
-                }
-            ]).toArray()
+            // Fetch all posts
+            const posts = await this.findMany('Posts', {})
+
+            // Collect unique user IDs from the posts
+            const userIds = posts.map(post => post.user_id)
+
+            // Fetch user details in a single batch operation
+            const users = await this.findMany('Users', { _id: { $in: userIds } })
+            const userMap = users.reduce((map, user) => {
+                map[user._id] = user
+                return map
+            }, {})
+
+            // Attach user details to posts
+            posts.forEach(post => {
+                post.username = userMap[post.user_id] ? userMap[post.user_id].username : null
+            })
             return posts
-        } catch (err) {
-            console.error('Error finding all posts:', err)
-            throw err
+        } catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
         }
     }
 
@@ -336,7 +329,6 @@ class DBManagerClass {
         }
     }
 
-    // Method to update a post's content by ID
     async updatePost(postId, content) {
         try {
             const result = await this.updateOne(
@@ -345,9 +337,9 @@ class DBManagerClass {
                 { content: content }
             )
             return result
-        } catch (err) {
-            console.error('Error updating post:', err)
-            throw err
+        } catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
         }
     }
 }
