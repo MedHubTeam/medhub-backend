@@ -1,9 +1,11 @@
 const express = require('express')
-const postsrouter = express.Router()
+const postsRouter = express.Router()
 const DBManager = require('../services/databaseManager')
 
+postsRouter.use('/get', postsRouter)
+postsRouter.use('/set', postsRouter)
 // Fetch all posts
-postsrouter.get('/', async (req, res) => {
+postsRouter.get('/', async (req, res) => {
     try {
         const posts = await DBManager.findAllPosts()
         console.log('Fetched posts:', posts) // Debug log for fetched posts
@@ -15,7 +17,7 @@ postsrouter.get('/', async (req, res) => {
 })
 
 // Save a new post
-postsrouter.post('/', async (req, res) => {
+postsRouter.post('/', async (req, res) => {
     try {
         console.log('Received post data:', req.body) // Debug log for incoming data
         const { user_id, content } = req.body
@@ -35,4 +37,4 @@ postsrouter.post('/', async (req, res) => {
 
 
 
-module.exports = postsrouter
+module.exports = postsRouter
