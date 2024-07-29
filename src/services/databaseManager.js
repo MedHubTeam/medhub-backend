@@ -42,8 +42,7 @@ class DBManagerClass {
     async insertOne(collectionName, document) {
         try{
             const collection = this.db.collection(collectionName)
-            const result = await collection.insertOne(document)
-            return result
+            return await collection.insertOne(document)
         }catch(err) {
             console.error(err)
             throw err
@@ -53,8 +52,7 @@ class DBManagerClass {
     async findOne(collectionName, query) {
         try{
             const collection = this.db.collection(collectionName)
-            const result = await collection.findOne(query)
-            return result
+            return await collection.findOne(query)
         }catch(err) {
             console.error(err)
             throw err
@@ -75,8 +73,7 @@ class DBManagerClass {
     async updateOne(collectionName, query, update) {
         try{
             const collection = this.db.collection(collectionName)
-            const result = await collection.updateOne(query, { $set: update })
-            return result
+            return await collection.updateOne(query, { $set: update })
         }catch(err) {
             console.error(err)
             throw err
@@ -86,8 +83,7 @@ class DBManagerClass {
     async deleteOne(collectionName, query) {
         try{
             const collection = this.db.collection(collectionName)
-            const result = await collection.deleteOne(query)
-            return result
+            return await collection.deleteOne(query)
         }catch(err) {
             console.error(err)
             throw err
@@ -285,8 +281,7 @@ class DBManagerClass {
                 content: content,
                 timestamp: new Date()
             }
-            const result = await this.insertOne('Posts', postDocument)
-            return result
+            return await this.insertOne('Posts', postDocument)
         } catch(err) {
             console.error(err)
             return { 'status': 'failed' }
@@ -321,8 +316,7 @@ class DBManagerClass {
 
     async deletePost(postId) {
         try {
-            const result = await this.deleteOne('Posts', { '_id': new ObjectID(postId) })
-            return result
+            return await this.deleteOne('Posts', { '_id': new ObjectID(postId) })
         } catch (err) {
             console.error('Error deleting post:', err)
             throw err
@@ -331,12 +325,11 @@ class DBManagerClass {
 
     async updatePost(postId, content) {
         try {
-            const result = await this.updateOne(
+            return await this.updateOne(
                 'Posts',
                 { '_id': new ObjectID(postId) },
                 { content: content }
             )
-            return result
         } catch(err) {
             console.error(err)
             return { 'status': 'failed' }
