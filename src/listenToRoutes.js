@@ -10,7 +10,7 @@ module.exports = (app) => {
     app.use('/register', registerRouter)
     app.use('/content', contentRouter)
     app.use('/user', userRouter)
-    app.use('/api/posts', postsRouter)
+    app.use('/posts', postsRouter)
     
     // Initialize functionality
     require('./utils/ping.js')(app)

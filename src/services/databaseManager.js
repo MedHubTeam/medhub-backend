@@ -281,7 +281,12 @@ class DBManagerClass {
                 content: content,
                 timestamp: new Date()
             }
-            return await this.insertOne('Posts', postDocument)
+            const createpost = await this.insertOne('Posts', postDocument)
+            if (createpost){
+                return { 'status': 'failed' }
+            } else {
+                return { 'status': 'successful' }
+            }
         } catch(err) {
             console.error(err)
             return { 'status': 'failed' }
@@ -290,20 +295,16 @@ class DBManagerClass {
 
     async findAllPosts() {
         try {
-            // Fetch all posts
             const posts = await this.findMany('Posts', {})
 
-            // Collect unique user IDs from the posts
             const userIds = posts.map(post => post.user_id)
 
-            // Fetch user details in a single batch operation
             const users = await this.findMany('Users', { _id: { $in: userIds } })
             const userMap = users.reduce((map, user) => {
                 map[user._id] = user
                 return map
             }, {})
 
-            // Attach user details to posts
             posts.forEach(post => {
                 post.username = userMap[post.user_id] ? userMap[post.user_id].username : null
             })
@@ -316,7 +317,12 @@ class DBManagerClass {
 
     async deletePost(postId) {
         try {
-            return await this.deleteOne('Posts', { '_id': new ObjectID(postId) })
+            const deletepost = await this.deleteOne('Posts', { '_id': new ObjectID(postId) })
+            if (deletepost){
+                return { 'status': 'failed' }
+            } else {
+                return { 'status': 'successful' }
+            }
         } catch (err) {
             console.error('Error deleting post:', err)
             throw err
@@ -325,11 +331,16 @@ class DBManagerClass {
 
     async updatePost(postId, content) {
         try {
-            return await this.updateOne(
+            const updatepost = await this.updateOne(
                 'Posts',
                 { '_id': new ObjectID(postId) },
                 { content: content }
             )
+            if (updatepost){
+                return { 'status': 'failed' }
+            } else {
+                return { 'status': 'successful' }
+            }
         } catch(err) {
             console.error(err)
             return { 'status': 'failed' }
