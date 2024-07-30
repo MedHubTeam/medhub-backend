@@ -346,6 +346,21 @@ class DBManagerClass {
             return { 'status': 'failed' }
         }
     }
+
+    async updatePassword(id, oldpass, newpass) {
+        try{
+            const findResult = await this.findOne('Users', { '_id': new ObjectID(id) , password: oldpass } )
+            if (findResult){
+                await this.updateOne('Users', { '_id': new ObjectID(id) , password: oldpass }, { password: newpass })
+                return { 'status': 'successful' }
+            } else {
+                return { 'status': 'rejected' }
+            }
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
 }
 
 

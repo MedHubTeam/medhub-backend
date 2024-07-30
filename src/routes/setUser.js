@@ -26,4 +26,12 @@ setUserRouter.get('/unfollow', async (req, res) => {
     res.send(await DBManager.removefollower(id, following))
 })
 
+setUserRouter.get('/password', async (req, res) => {
+    const id = req.query.id
+    const oldpass = req.query.oldpass
+    const newpass = req.query.newpass
+    res.send(await DBManager.updatePassword(id, oldpass, newpass))
+})
+
+
 module.exports = setUserRouter
