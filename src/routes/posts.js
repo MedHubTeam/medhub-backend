@@ -20,7 +20,8 @@ postsRouter.get('/delete', async (req, res) => {
 postsRouter.get('/edit', async (req, res) => {
     const id = req.query.id
     const content = req.query.content
-    res.send(await DBManager.updatePost(id, content))
+    const result = await DBManager.updatePost(id, content)
+    res.json(result)
 })
 
 module.exports = postsRouter
