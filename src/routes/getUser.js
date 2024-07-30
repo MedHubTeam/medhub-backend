@@ -17,4 +17,9 @@ getUserRouter.get('/profession', async (req, res) => {
     res.send(await DBManager.getProfession(id))
 })
 
+getUserRouter.get('/stats', async (req, res) => {
+    const id = req.query.id
+    res.send(await DBManager.getUserStats(id))
+})
+
 module.exports = getUserRouter

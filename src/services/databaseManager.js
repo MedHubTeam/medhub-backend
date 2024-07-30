@@ -383,6 +383,69 @@ class DBManagerClass {
             return { 'status': 'failed' }
         }
     }
+
+    async getPostLikes(post_id) {
+        try{
+            const postResult = await this.findMany('Likes', { 'post_id': new ObjectID(post_id) })
+            return postResult.length
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
+
+    async getUserStats(id) {
+        try{
+            const getFollowingAmount = async () => {
+                const findResult = await this.findMany('Following', { 'user': id } )
+                return findResult.length
+            }
+
+            const getFollowersAmount = async () => {
+                const findResult = await this.findMany('Following', { 'following': id } )
+                return findResult.length
+            }
+
+            const getLikesRecivedAmount = async () => {
+                let likesTotal = 0
+                const userPosts = await this.findUserPosts(id)
+                for (const post of userPosts) {
+                    likesTotal += await this.getPostLikes(post['_id'])
+                }
+                return likesTotal
+            }
+
+            const getLikesSentAmount = async () => {
+                const findResult = await this.findMany('Likes', { 'user_id': new ObjectID(id) } )
+                return findResult.length
+            }
+
+            const getPostsCreatedAmount = async () => {
+                const findResult = await this.findMany('Posts', { 'user_id': new ObjectID(id) } )
+                return findResult.length
+            }
+
+            const getPostsSavedAmount = async () => {
+                const findResult = await this.findMany('Saves', { 'user_id': new ObjectID(id) } )
+                return findResult.length
+            }
+
+            return { 
+                'status': 'successful', 
+                'data': { 
+                    'following': await getFollowingAmount(),
+                    'followers': await getFollowersAmount(),
+                    'likesRecived': await getLikesRecivedAmount(),
+                    'likesSent': await getLikesSentAmount(),
+                    'postsCreated': await getPostsCreatedAmount(),
+                    'saves': await getPostsSavedAmount()
+                } 
+            }
+        }catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
 }
 
 
