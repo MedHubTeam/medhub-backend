@@ -3,7 +3,12 @@ const postsRouter = express.Router()
 const DBManager = require('../services/databaseManager')
 
 postsRouter.get('/', async (req, res) => {
-    res.send(await DBManager.findAllPosts())
+    const user_id = req.query.user_id
+    if (user_id) {
+        res.send(await DBManager.findUserPosts(user_id))
+    } else {
+        res.send(await DBManager.findAllPosts())
+    }
 })
 
 postsRouter.get('/create', async (req, res) => {

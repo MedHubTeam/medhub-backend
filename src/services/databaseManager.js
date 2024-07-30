@@ -315,6 +315,28 @@ class DBManagerClass {
         }
     }
 
+    async findUserPosts(id) {
+        try {
+            const posts = await this.findMany('Posts', { user_id: new ObjectID(id) })
+
+            const userIds = posts.map(post => post.user_id)
+
+            const users = await this.findMany('Users', { _id: { $in: userIds } })
+            const userMap = users.reduce((map, user) => {
+                map[user._id] = user
+                return map
+            }, {})
+
+            posts.forEach(post => {
+                post.username = userMap[post.user_id] ? userMap[post.user_id].username : null
+            })
+            return posts
+        } catch(err) {
+            console.error(err)
+            return { 'status': 'failed' }
+        }
+    }
+
     async deletePost(postId) {
         try {
             const deletepost = await this.deleteOne('Posts', { '_id': new ObjectID(postId) })
@@ -363,8 +385,6 @@ class DBManagerClass {
     }
 }
 
-
-    
 
 const DBManager = new DBManagerClass()
 
