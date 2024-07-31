@@ -1,5 +1,31 @@
 const { checkRouteExists, routes } = require('./helperTestFunctions')
 
+jest.mock('mongodb', () => {
+    const mockCollection = {
+        insertOne: jest.fn().mockResolvedValue({}),
+        findOne: jest.fn().mockResolvedValue(null),
+        find: jest.fn().mockReturnValue({
+            toArray: jest.fn().mockResolvedValue([])
+        }),
+        updateOne: jest.fn().mockResolvedValue({}),
+        deleteOne: jest.fn().mockResolvedValue({})
+    }
+
+    const mockDb = {
+        collection: jest.fn().mockReturnValue(mockCollection)
+    }
+
+    const mockClient = {
+        connect: jest.fn().mockResolvedValue({}),
+        close: jest.fn().mockResolvedValue({}),
+        db: jest.fn().mockReturnValue(mockDb)
+    }
+
+    return {
+        MongoClient: jest.fn(() => mockClient)
+    }
+})
+
 
 describe('Check routes exist', () => {  
     describe('Check basic routes', () => {
