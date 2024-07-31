@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src/index.js",
-    "test": "jest tests",
+    "test": "jest tests --silent",
     "lint": "eslint"
   },
   "author": "MedHub Team (https://github.com/MedHubTeam)",
@@ -53,6 +53,7 @@
     "eslint": "^9.7.0",
     "globals": "^15.8.0",
     "jest": "^29.7.0",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0"
   }
 }

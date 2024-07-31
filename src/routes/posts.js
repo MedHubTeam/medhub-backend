@@ -19,7 +19,11 @@ postsRouter.get('/create', async (req, res) => {
 
 postsRouter.get('/delete', async (req, res) => {
     const id = req.query.id
-    res.send(await DBManager.deletePost(id))
+    if (id) {
+        res.send(await DBManager.deletePost(id))
+    } else {
+        res.send({ 'status': 'failed' })
+    }
 })
 
 postsRouter.get('/edit', async (req, res) => {

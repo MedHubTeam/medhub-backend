@@ -11,6 +11,10 @@ app.use(express.json())
 // Load routes
 require('./listenToRoutes')(app)
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`)
+    })
+}
+
+module.exports = app
