@@ -22,7 +22,7 @@ postsRouter.get('/delete', async (req, res) => {
     if (id) {
         res.send(await DBManager.deletePost(id))
     } else {
-        res.send({ 'status': 'failed' })
+        res.send({ status: 'failed' })
     }
 })
 
@@ -31,6 +31,16 @@ postsRouter.get('/edit', async (req, res) => {
     const content = req.query.content
     const result = await DBManager.updatePost(id, content)
     res.json(result)
+})
+
+postsRouter.get('/liked', async (req, res) => {
+    const user_id = req.query.user_id
+    res.send(await DBManager.findUserlikedPosts(user_id))
+})
+
+postsRouter.get('/saved', async (req, res) => {
+    const user_id = req.query.user_id
+    res.send(await DBManager.findUsersavedPosts(user_id))
 })
 
 module.exports = postsRouter
