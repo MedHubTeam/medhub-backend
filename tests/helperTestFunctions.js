@@ -33,7 +33,9 @@ const routes = {
         'default': '/posts',
         'create': '/posts/create',
         'delete': '/posts/delete',
-        'edit': '/posts/edit'
+        'edit': '/posts/edit',
+        'saved': '/posts/saved',
+        'liked': '/posts/liked'
     }
 }
 
