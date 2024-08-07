@@ -7,7 +7,7 @@ const setupWebSocket = (server) => {
     
     wss.on('connection', (ws) => {
         console.log('New client connected')
-        broadcastMessage("hello world")
+        broadcastMessage('hello world')
 
         ws.on('message', (message) => {
             console.log(`Received message => ${message}`)
@@ -32,6 +32,6 @@ const broadcastMessage = (message) => {
 }
 
 module.exports = {
-  setupWebSocket,
-  broadcastMessage
+    setupWebSocket,
+    broadcastMessage
 }

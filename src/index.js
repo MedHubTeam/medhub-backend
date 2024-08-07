@@ -5,19 +5,19 @@ const { setupWebSocket } = require('./services/webSocket.js')
 
 const app = express()
 
-app.use(cors());
+app.use(cors())
 app.use(express.json())
 
 // Load routes
 require('./listenToRoutes')(app)
 
 if (process.env.NODE_ENV !== 'test') {
-  const server = app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`)
-  })
+    const server = app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`)
+    })
 
-  // Setup WebSocket server
-  setupWebSocket(server)
+    // Setup WebSocket server
+    setupWebSocket(server)
 }
 
 module.exports = app
