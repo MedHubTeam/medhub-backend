@@ -648,7 +648,8 @@ class DBManagerClass {
         try {
             const msgData = await this.findOne('Messages', { _id: new ObjectID(msgID) })
             if (msgData) {
-                return { status: 'successful', data: msgData }
+                const userData = await this.findOne('Users', { _id: new ObjectID(msgData['user_id']) })
+                return { status: 'successful', data: { username: userData['username'], message: msgData['content'], timestamp: msgData['timestamp'] } }
             }
             return { status: 'failed' }
         } catch (err) {
