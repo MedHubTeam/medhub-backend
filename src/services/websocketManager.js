@@ -38,7 +38,7 @@ class WebSocketClass {
     }
 
     async newChatMessage (chatID, messageID) {
-        this.sendMessageToChat(chatID, { chat_id: chatID, message_id: messageID })
+        this.sendMessageToChat (chatID, { chat_id: chatID, message_id: messageID })
     }
 }
 
