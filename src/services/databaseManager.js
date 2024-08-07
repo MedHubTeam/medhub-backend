@@ -602,7 +602,8 @@ class DBManagerClass {
                 let messages = []
                 for(const msg of chatData['messages']) {
                     const msgData = await this.findOne('Messages', { _id: new ObjectID(msg) })
-                    messages.push(msgData)
+                    const userData = await this.findOne('Users', { _id: new ObjectID(msgData['user_id']) })
+                    messages.push({ username: userData['username'], message: msgData['content'], timestamp: msgData['timestamp'] })
                 }
                 return { status: 'successful', data: { messages: messages } }
             }
