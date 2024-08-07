@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const { port } = require('./config/config.js')
-const { setupWebSocket } = require('./services/webSocket.js')
+const WebSocketManager = require('./services/websocketManager.js')
 
 const app = express()
 
@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'test') {
     })
 
     // Setup WebSocket server
-    setupWebSocket(server)
+    WebSocketManager.setup(server)
 }
 
 module.exports = app

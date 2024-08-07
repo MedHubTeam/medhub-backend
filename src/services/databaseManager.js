@@ -510,7 +510,7 @@ class DBManagerClass {
             const postIds = likedPosts.map((like) => like.post_id)
 
             const posts = await this.findMany('Posts', {
-                _id: { $in: postIds.map((id) => new ObjectID(id)) },
+                _id: { $in: postIds.map((temp_id) => new ObjectID(temp_id)) },
             })
 
             const userIds = posts.map((post) => post.user_id)
@@ -541,7 +541,7 @@ class DBManagerClass {
             const postIds = savedPosts.map((save) => save.post_id)
 
             const posts = await this.findMany('Posts', {
-                _id: { $in: postIds.map((id) => new ObjectID(id)) },
+                _id: { $in: postIds.map((temp_id) => new ObjectID(temp_id)) },
             })
 
             const userIds = posts.map((post) => post.user_id)
@@ -563,7 +563,100 @@ class DBManagerClass {
             return { status: 'failed' }
         }
     }
+
+    async createDMChat(user1, user2) {
+        try {
+            const chatData = await this.insertOne('Chats', { messages: [] })
+            const dmData = await this.insertOne('DMs', { user1: new ObjectID(user1), user2: new ObjectID(user2), chat_id: new ObjectID(chatData.insertedId) })
+            if (dmData.acknowledged) {
+                return { status: 'successful' }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async getDMChat(user1, user2) {
+        try {
+            let dmData
+            dmData = await this.findOne('DMs', { user1: new ObjectID(user1), user2: new ObjectID(user2) })
+            if (!dmData){
+                dmData = await this.findOne('DMs', { user1: new ObjectID(user2), user2: new ObjectID(user1) }) 
+            }
+            if (dmData) {
+                return { status: 'successful', data: { chat_id: dmData['chat_id'] } }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async getChatMessages(chatID) {
+        try {
+            const chatData = await this.findOne('Chats', { _id: new ObjectID(chatID) })
+            if (chatData) {
+                let messages = []
+                for(const msg of chatData['messages']) {
+                    const msgData = await this.findOne('Messages', { _id: new ObjectID(msg) })
+                    messages.push(msgData)
+                }
+                return { status: 'successful', data: { messages: messages } }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async addMessageToChat(chatID, userID, msg) {
+        try {
+            const msgData = await this.insertOne('Messages', { user_id: new ObjectID(userID), content: msg, timestamp: new Date() })
+            const chatData = await this.findOne('Chats', { _id: new ObjectID(chatID) })
+            if (chatData) {
+                const messages = chatData['messages']
+                messages.push(new ObjectID(msgData.insertedId))
+                const updatedData = await this.updateOne('Chats', { _id: new ObjectID(chatID) }, { messages: messages })
+                return { status: 'successful', 'data': updatedData, new_msg: msgData.insertedId }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async getChatData(chatID) {
+        try {
+            const chatData = await this.findOne('Chats', { _id: new ObjectID(chatID) })
+            if (chatData) {
+                return { status: 'successful', data: chatData }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async getOneMessage(msgID) {
+        try {
+            const msgData = await this.findOne('Messages', { _id: new ObjectID(msgID) })
+            if (msgData) {
+                return { status: 'successful', data: msgData }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
 }
+
 
 const DBManager = new DBManagerClass()
 
