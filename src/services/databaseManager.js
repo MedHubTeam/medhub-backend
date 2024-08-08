@@ -756,9 +756,17 @@ class DBManagerClass {
 
     async joinGroup(group_id, user_id) {
         try {
-            const updateResult = await this.updateMany('UserGroups', { user_id: new ObjectID(user_id) }, { $push: { groups: new ObjectID(group_id) } })
-            if (updateResult.acknowledged) {
-                return { status: 'successful' }
+            const findIfExists = await this.findOne('UserGroups', { user_id: new ObjectID(user_id) })
+            if (findIfExists) {
+                const updateResult = await this.updateMany('UserGroups', { user_id: new ObjectID(user_id) }, { $push: { groups: new ObjectID(group_id) } })
+                if (updateResult.acknowledged) {
+                    return { status: 'successful' }
+                }
+            } else {
+                const insertResult = await this.insertOne('UserGroups', { user_id: new ObjectID(user_id), groups: [new ObjectID(group_id)] })
+                if (insertResult.acknowledged) {
+                    return { status: 'successful' }
+                }
             }
             return { status: 'failed' }
         } catch (err) {
