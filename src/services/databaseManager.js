@@ -81,6 +81,16 @@ class DBManagerClass {
         }
     }
 
+    async updateMany(collectionName, query, update) {
+        try {
+            const collection = this.db.collection(collectionName)
+            return await collection.updateMany(query, update)
+        } catch (err) {
+            console.error(err)
+            throw err
+        }
+    }
+
     async deleteOne(collectionName, query) {
         try {
             const collection = this.db.collection(collectionName)
@@ -650,6 +660,117 @@ class DBManagerClass {
             if (msgData) {
                 const userData = await this.findOne('Users', { _id: new ObjectID(msgData['user_id']) })
                 return { status: 'successful', data: { user_id: msgData['user_id'], username: userData['username'], message: msgData['content'], timestamp: msgData['timestamp'] } }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async createGroupChat(groupName, groupTopic, groupOwner) {
+        try {
+            const chatData = await this.insertOne('Chats', { messages: [] })
+            const groupData = await this.insertOne('Groups', { name: groupName, topic: groupTopic, chat_id: new ObjectID(chatData.insertedId), owner_id: new ObjectID(groupOwner) })
+            if (groupData.acknowledged) {
+                return { status: 'successful' }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async getGroupChat(groupId) {
+        try {
+            const chatData = await this.findOne('Groups', { _id: new ObjectID(groupId) })
+            if (chatData) {
+                return { status: 'successful', data: { name: chatData['name'], topic: chatData['topic'], chat_id: chatData['chat_id'], owner_id: chatData['owner_id'] } }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async getUserGroups(userId) {
+        try {
+            const userGroupsData = await this.findOne('UserGroups', { user_id: new ObjectID(userId) })
+            let userGroups = []
+            if (userGroupsData) {
+                for (const group of userGroupsData['groups']){
+                    const findOneGroup = await this.findOne('Groups', { _id: new ObjectID(group) })
+                    userGroups.push({ group_id: new ObjectID(group), name: findOneGroup['name'], topic: findOneGroup['topic'] })
+                }
+            } 
+            return { status: 'successful', data: userGroups }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async getAllGroups() {
+        try {
+            const groupsData = await this.findMany('Groups', {})
+            let groups = []
+            if (groupsData) {
+                for (const group of groupsData){
+                    groups.push({ group_id: new ObjectID(group['_id']), name: group['name'], topic: group['topic'] })
+                }
+            } 
+            return { status: 'successful', data: groups }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async deleteGroup(group_id) {
+        try {
+            const groupToRemove = new ObjectID(group_id)
+            const resultUserGroups = await this.updateMany('UserGroups', { groups: groupToRemove }, { $pull: { groups: groupToRemove } })
+            if (resultUserGroups.acknowledged){
+                const groupData = await this.findOne('Groups', { _id: groupToRemove })
+                const getChatData = await this.findOne('Chats', { _id: new ObjectID(groupData['chat_id']) })
+                for (const msg of getChatData['messages']){
+                    await this.deleteOne('Messages', { _id: new ObjectID(msg) })
+                }
+                const resultChatDelete = await this.deleteOne('Chats', { _id: groupData['chat_id'] })
+                if (resultChatDelete.acknowledged) {
+                    const resultGroupDelete = await this.deleteOne('Groups', { _id: groupToRemove })
+                    if (resultGroupDelete.acknowledged) {
+                        return { status: 'successful' }
+                    }
+                }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async joinGroup(group_id, user_id) {
+        try {
+            const updateResult = await this.updateMany('UserGroups', { user_id: new ObjectID(user_id) }, { $push: { groups: new ObjectID(group_id) } })
+            if (updateResult.acknowledged) {
+                return { status: 'successful' }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async leaveGroup(group_id, user_id) {
+        try {
+            const updateResult = await this.updateMany('UserGroups', { user_id: new ObjectID(user_id) }, { $pull: { groups: new ObjectID(group_id) } })
+            if (updateResult.acknowledged) {
+                return { status: 'successful' }
             }
             return { status: 'failed' }
         } catch (err) {
