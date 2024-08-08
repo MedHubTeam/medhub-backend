@@ -672,7 +672,8 @@ class DBManagerClass {
         try {
             const chatData = await this.insertOne('Chats', { messages: [] })
             const groupData = await this.insertOne('Groups', { name: groupName, topic: groupTopic, chat_id: new ObjectID(chatData.insertedId), owner_id: new ObjectID(groupOwner) })
-            if (groupData.acknowledged) {
+            const joinResult = await this.joinGroup(groupData.insertedId, groupOwner)
+            if (groupData.acknowledged && joinResult['status'] === 'successful') {
                 return { status: 'successful' }
             }
             return { status: 'failed' }
