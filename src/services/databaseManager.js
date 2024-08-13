@@ -802,7 +802,6 @@ class DBManagerClass {
     }
 }
 
-
 const DBManager = new DBManagerClass()
 
 module.exports = DBManager
