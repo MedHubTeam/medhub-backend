@@ -334,7 +334,7 @@ class DBManagerClass {
     async isFollowing(id, following) {
         try {
             const results = await this.findOne('Following', { user: id, following: following })
-            if (results.acknowledged) {
+            if (results) {
                 return { status: 'successful' }
             } 
             return { status: 'failed' }
