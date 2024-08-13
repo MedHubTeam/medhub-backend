@@ -32,6 +32,12 @@ setUserRouter.get('/follow', async (req, res) => {
     res.send(await DBManager.addFollower(id, follow))
 })
 
+setUserRouter.get('/isfollowing', async (req, res) => {
+    const id = req.query.id
+    const following = req.query.following
+    res.send(await DBManager.isFollowing(id, following))
+})
+
 setUserRouter.get('/password', async (req, res) => {
     const id = req.query.id
     const oldpass = req.query.oldpass

@@ -331,6 +331,19 @@ class DBManagerClass {
         }
     }
 
+    async isFollowing(id, following) {
+        try {
+            const results = await this.findOne('Following', { user: id, following: following })
+            if (results.acknowledged) {
+                return { status: 'successful' }
+            } 
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
     async insertPost(userId, content) {
         try {
             const postDocument = {
