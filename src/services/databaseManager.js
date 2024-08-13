@@ -318,6 +318,19 @@ class DBManagerClass {
         }
     }
 
+    async addFollower(id, follow) {
+        try {
+            const addResult = await this.insertOne('Following', { user: id, following: follow })
+            if (addResult.acknowledged) {
+                return { status: 'successful' }
+            } 
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
     async insertPost(userId, content) {
         try {
             const postDocument = {
