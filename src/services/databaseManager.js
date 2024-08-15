@@ -840,6 +840,19 @@ class DBManagerClass {
         }
     }
 
+    async isLikedPost(user_id, post_id) {
+        try {
+            const result = await this.findOne('Likes', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id) })
+            if (result) {
+                return { status: 'successful' }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
     async savePost(user_id, post_id) {
         try {
             const updateResult = await this.insertOne('Saves', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id), timestamp: new Date() })
@@ -857,6 +870,19 @@ class DBManagerClass {
         try {
             const updateResult = await this.deleteOne('Saves', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id) })
             if (updateResult.acknowledged) {
+                return { status: 'successful' }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async isSavedPost(user_id, post_id) {
+        try {
+            const result = await this.findOne('Likes', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id) })
+            if (result) {
                 return { status: 'successful' }
             }
             return { status: 'failed' }

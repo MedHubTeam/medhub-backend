@@ -55,6 +55,12 @@ postsRouter.get('/unlike', async (req, res) => {
     res.send(await DBManager.unlikePost(user_id, post_id))
 })
 
+postsRouter.get('/isliked', async (req, res) => {
+    const user_id = req.query.user_id
+    const post_id = req.query.post_id
+    res.send(await DBManager.isLikedPost(user_id, post_id))
+})
+
 postsRouter.get('/save', async (req, res) => {
     const user_id = req.query.user_id
     const post_id = req.query.post_id
@@ -65,6 +71,12 @@ postsRouter.get('/unsave', async (req, res) => {
     const user_id = req.query.user_id
     const post_id = req.query.post_id
     res.send(await DBManager.unlikePost(user_id, post_id))
+})
+
+postsRouter.get('/issaved', async (req, res) => {
+    const user_id = req.query.user_id
+    const post_id = req.query.post_id
+    res.send(await DBManager.isSavedPost(user_id, post_id))
 })
 
 module.exports = postsRouter
