@@ -816,6 +816,10 @@ class DBManagerClass {
 
     async likePost(user_id, post_id) {
         try {
+            const getPostResult = await this.findOne('Likes', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id) })
+            if (getPostResult) {
+                return { status: 'failed' }
+            }
             const updateResult = await this.insertOne('Likes', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id), timestamp: new Date() })
             if (updateResult.acknowledged) {
                 return { status: 'successful' }
@@ -855,6 +859,10 @@ class DBManagerClass {
 
     async savePost(user_id, post_id) {
         try {
+            const getPostResult = await this.findOne('Saves', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id) })
+            if (getPostResult) {
+                return { status: 'failed' }
+            }
             const updateResult = await this.insertOne('Saves', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id), timestamp: new Date() })
             if (updateResult.acknowledged) {
                 return { status: 'successful' }
