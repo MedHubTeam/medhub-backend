@@ -813,6 +813,58 @@ class DBManagerClass {
             return { status: 'failed' }
         }
     }
+
+    async likePost(user_id, post_id) {
+        try {
+            const updateResult = await this.insertOne('Likes', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id), timestamp: new Date() })
+            if (updateResult.acknowledged) {
+                return { status: 'successful' }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async unlikePost(user_id, post_id) {
+        try {
+            const updateResult = await this.deleteOne('Likes', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id) })
+            if (updateResult.acknowledged) {
+                return { status: 'successful' }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async savePost(user_id, post_id) {
+        try {
+            const updateResult = await this.insertOne('Saves', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id), timestamp: new Date() })
+            if (updateResult.acknowledged) {
+                return { status: 'successful' }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
+    async unsavePost(user_id, post_id) {
+        try {
+            const updateResult = await this.deleteOne('Saves', { user_id: new ObjectID(user_id), post_id: new ObjectID(post_id) })
+            if (updateResult.acknowledged) {
+                return { status: 'successful' }
+            }
+            return { status: 'failed' }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
 }
 
 const DBManager = new DBManagerClass()
