@@ -64,13 +64,13 @@ postsRouter.get('/isliked', async (req, res) => {
 postsRouter.get('/save', async (req, res) => {
     const user_id = req.query.user_id
     const post_id = req.query.post_id
-    res.send(await DBManager.likePost(user_id, post_id))
+    res.send(await DBManager.savePost(user_id, post_id))
 })
 
 postsRouter.get('/unsave', async (req, res) => {
     const user_id = req.query.user_id
     const post_id = req.query.post_id
-    res.send(await DBManager.unlikePost(user_id, post_id))
+    res.send(await DBManager.unsavePost(user_id, post_id))
 })
 
 postsRouter.get('/issaved', async (req, res) => {
