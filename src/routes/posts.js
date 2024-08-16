@@ -43,7 +43,6 @@ postsRouter.get('/saved', async (req, res) => {
     res.send(await DBManager.findUsersavedPosts(user_id))
 })
 
-<<<<<<< Updated upstream
 postsRouter.get('/like', async (req, res) => {
     const user_id = req.query.user_id
     const post_id = req.query.post_id
@@ -79,7 +78,7 @@ postsRouter.get('/issaved', async (req, res) => {
     const post_id = req.query.post_id
     res.send(await DBManager.isSavedPost(user_id, post_id))
 })
-=======
+
 postsRouter.get('/report', async (req, res) => {
     const post_id = req.query.post_id
     const user_id = req.query.user_id
@@ -92,7 +91,5 @@ postsRouter.get('/report', async (req, res) => {
         res.send({ status: 'failed', message: 'Missing parameters' })
     }
 })
-
->>>>>>> Stashed changes
 
 module.exports = postsRouter
