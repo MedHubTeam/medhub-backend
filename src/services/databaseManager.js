@@ -899,7 +899,31 @@ class DBManagerClass {
             return { status: 'failed' }
         }
     }
+
+    async searchProfile(input) {
+        try {
+            let findResult
+            
+            // Check if the input is a username
+            findResult = await this.findMany('Users', { username: input })
+            if (findResult.length === 0) {
+                // If no username found, check for profession
+                findResult = await this.findMany('Users', { proStatus: input })
+            }
+            
+            if (findResult.length > 0) {
+                return { status: 'successful', data: findResult }
+            } else {
+                return { status: 'no_match' }
+            }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
 }
+
+
 
 const DBManager = new DBManagerClass()
 
