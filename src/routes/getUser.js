@@ -22,32 +22,9 @@ getUserRouter.get('/stats', async (req, res) => {
     res.send(await DBManager.getUserStats(id))
 })
 
-getUserRouter.get('/search-profile', async (req, res) => {
-    try {
-        const { username, email } = req.query
-        let query = {}
-
-        // Build query based on provided parameters
-        if (username) {
-            query.username = { $regex: new RegExp(username, 'i') }
-        }
-        if (email) {
-            query.email = { $regex: new RegExp(email, 'i') } 
-        }
-
-        const result = await DBManager.searchProfile(query)
-
-        if (result.status === 'successful') {
-            res.status(200).json(result.data)
-        } else if (result.status === 'not_found') {
-            res.status(404).json({ message: 'Profile not found' })
-        } else {
-            res.status(500).json({ message: 'Failed to search profile' })
-        }
-    } catch (error) {
-        console.error('Error in /search-profile route:', error)
-        res.status(500).json({ message: 'Internal server error' })
-    }
+getUserRouter.get('/search', async (req, res) => {
+    const input = req.query.input
+    res.send(await DBManager.searchProfile(input))
 })
 
 module.exports = getUserRouter
