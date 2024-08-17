@@ -917,6 +917,55 @@ class DBManagerClass {
             return { status: 'failed' }
         }
     }
+
+    async getUserTheme(userId) {
+        try {
+            const findResult = await this.findOne('Theme', { user_id: new ObjectID(userId) })
+            if (findResult) {
+                return {
+                    status: 'successful',
+                    data: { dark: findResult.dark }
+                }
+            } else {
+                return { status: 'rejected' }
+            }
+        } catch (err) {
+            console.error('Error fetching theme:', err)
+            return { status: 'failed' }
+        }
+    }
+
+    async setUserTheme(userId, darkMode) {
+        try {
+            const existingTheme = await this.findOne('Theme', { user_id: new ObjectID(userId) })
+            if (existingTheme) {
+                const result = await this.updateOne(
+                    'Theme',
+                    { user_id: new ObjectID(userId) },
+                    { dark: darkMode }
+                )
+                if (result.modifiedCount > 0) {
+                    return { status: 'successful' }
+                } else {
+                    return { status: 'failed' }
+                }
+            } else {
+                const result = await this.insertOne('Theme', {
+                    user_id: new ObjectID(userId),
+                    dark: darkMode
+                })
+                if (result.acknowledged) {
+                    return { status: 'successful' }
+                } else {
+                    return { status: 'failed' }
+                }
+            }
+        } catch (err) {
+            console.error(err)
+            return { status: 'failed' }
+        }
+    }
+
 }
 
 

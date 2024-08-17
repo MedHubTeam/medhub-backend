@@ -5,6 +5,8 @@ const userRouter = require('./routes/user.js')
 const postsRouter = require('./routes/posts.js')
 const chatRouter = require('./routes/chat.js')
 const groupRouter = require('./routes/group.js')
+const setThemeRouter = require('./routes/setTheme')
+const getThemeRouter = require('./routes/getTheme')
 
 module.exports = (app) => {
     // Initialize routes
@@ -15,6 +17,8 @@ module.exports = (app) => {
     app.use('/posts', postsRouter)
     app.use('/chats', chatRouter)
     app.use('/groups', groupRouter)
+    app.use('/setTheme', setThemeRouter)
+    app.use('/getTheme', getThemeRouter)
     
     // Initialize functionality
     require('./utils/ping.js')(app)
